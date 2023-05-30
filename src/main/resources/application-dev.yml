@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: auth
 
   # db settings
   datasource:
