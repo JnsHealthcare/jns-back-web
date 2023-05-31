@@ -1,5 +1,6 @@
-package com.jns.backweb.auth;
+package com.jns.backweb.auth.application;
 
+import com.jns.backweb.auth.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -14,6 +15,8 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
+
+    private static final String TOKEN_TYPE = "Bearer";
 
     private final JwtProperties jwtProperties;
     private final SecretKey secretKey;
@@ -52,6 +55,10 @@ public class JwtProvider {
 
     public String getAudience(String token) {
         return jwtParser.parseClaimsJws(token).getBody().getAudience();
+    }
+
+    public String getTokenType() {
+        return TOKEN_TYPE;
     }
 
 

@@ -1,4 +1,4 @@
-package com.jns.backweb.auth;
+package com.jns.backweb.auth.model;
 
 import lombok.RequiredArgsConstructor;
 
