@@ -16,8 +16,8 @@ public enum OAuthAttribute {
         return new MemberInfo(
                 (String) attributes.get("sub"),
                 (String) profile.get("nickname"),
-                (String) profile.get("thumbnail_image_url"),
-                (String) account.get("email"));
+                (String) account.get("email"),
+                (String) profile.get("thumbnail_image_url"));
     });
 
     private final String registrationId;
