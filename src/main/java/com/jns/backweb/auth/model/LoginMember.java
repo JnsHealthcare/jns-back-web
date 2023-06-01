@@ -3,6 +3,7 @@ package com.jns.backweb.auth.model;
 import com.jns.backweb.member.domain.Member;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Getter
+@ToString
 public class LoginMember implements OAuth2User, UserDetails {
 
     private final Long id;

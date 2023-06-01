@@ -1,9 +1,11 @@
 package com.jns.backweb.auth.config;
 
 import com.jns.backweb.auth.TokenAuthenticationFilter;
+import com.jns.backweb.auth.application.CookieOauthAuthorizationRequestRepository;
 import com.jns.backweb.auth.application.OAuthService;
 import com.jns.backweb.auth.handler.OAuthLoginFailHandler;
 import com.jns.backweb.auth.handler.OAuthLoginSuccessHandler;
+import com.jns.backweb.auth.handler.RestAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +22,8 @@ public class SecurityConfig {
     private final OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
     private final OAuthLoginFailHandler oAuthLoginFailHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final CookieOauthAuthorizationRequestRepository cookieOauthAuthorizationRequestRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,15 +32,23 @@ public class SecurityConfig {
                 .csrf().disable()
                 .httpBasic().disable()
                 .formLogin().disable()
+                .exceptionHandling()
+                    .authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/auth/**", "/oauth2/**").permitAll()
+                    .antMatchers("/", "/error/*", "/favicon.ico").permitAll()
+                    .antMatchers("/auth/**", "/oauth2/callback/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
+                    .authorizationEndpoint()
+                    .authorizationRequestRepository(cookieOauthAuthorizationRequestRepository)
+                .and()
+                .redirectionEndpoint()
+                    .baseUri("/oauth2/callback/*")
+                .and()
                 .userInfoEndpoint()
                     .userService(oAuthService)
                 .and()

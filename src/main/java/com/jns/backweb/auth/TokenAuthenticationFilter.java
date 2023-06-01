@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final MemberDetailsService memberDetailsService;
@@ -28,7 +30,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String token = AuthExtractor.extract(request);
 
         if(jwtProvider.validateToken(token)) {
-            long memberId = Long.parseLong(jwtProvider.getAudience(token));
+            Long memberId = Long.parseLong(jwtProvider.getAudience(token));
             UserDetails userDetails = memberDetailsService.loadMemberById(memberId);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
