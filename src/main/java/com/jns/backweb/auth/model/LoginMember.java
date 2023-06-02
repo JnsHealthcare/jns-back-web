@@ -20,20 +20,21 @@ import java.util.Map;
 public class LoginMember implements OAuth2User, UserDetails {
 
     private final Long id;
-    private final String nickname;
+    private final String name;
     private final String email;
+    private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
     private final Map<String, Object> attributes;
 
 
     public static LoginMember from(Member member) {
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        return new LoginMember(member.getId(), member.getNickname(), member.getEmail(), authorities, null);
+        return new LoginMember(member.getId(), member.getName(), member.getEmail(), member.getPassword(), authorities, null);
     }
 
     public static LoginMember of(Member member, Map<String, Object> attributes) {
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        return new LoginMember(member.getId(), member.getNickname(), member.getEmail(), authorities, attributes);
+        return new LoginMember(member.getId(), member.getName(), member.getEmail(), member.getPassword(), authorities, attributes);
     }
 
 
@@ -49,12 +50,12 @@ public class LoginMember implements OAuth2User, UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
     }
 
     @Override
@@ -79,6 +80,6 @@ public class LoginMember implements OAuth2User, UserDetails {
 
     @Override
     public String getName() {
-        return this.email;
+        return this.name;
     }
 }

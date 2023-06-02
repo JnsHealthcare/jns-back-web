@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public class MemberInfo {
-    private final String nickname;
+
     private final String email;
+    private final String name;
 
 
     public Member convertToSimpleMember() {
-        return Member.ofSimpleMember(nickname, email);
+        return Member.ofSimpleMember(email, name);
     }
 
 

@@ -24,7 +24,6 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nickname;
     private String email;
     private String name;
     private LocalDate birthDate;
@@ -32,14 +31,13 @@ public class Member extends BaseEntity {
     private String password;
 
 
-    public static Member ofSimpleMember(String nickname, String email) {
-        return new Member(null, nickname, email, null, null, null, null);
+    public static Member ofSimpleMember(String email, String name) {
+        return new Member(null, email, name, null, null, null);
     }
 
     public static Member of(String email, String name, LocalDate birthDate, String phoneNumber, String password) {
 
-        return new Member(null, null, email,
-                name, birthDate, phoneNumber, password);
+        return new Member(null, email, name, birthDate, phoneNumber, password);
     }
 
 }

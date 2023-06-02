@@ -1,5 +1,6 @@
 package com.jns.backweb.common.dto;
 
+import com.jns.backweb.common.exception.ErrorCodeAndMessage;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,10 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> error(String errorCode, String message) {
         return new ApiResponse<>(errorCode, message, null);
+    }
+
+    public static <T> ApiResponse<T> error(ErrorCodeAndMessage errorCode) {
+        return new ApiResponse<>(errorCode.getCode(), errorCode.getMessage(), null);
     }
 }
 

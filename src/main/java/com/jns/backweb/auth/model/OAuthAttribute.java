@@ -14,8 +14,8 @@ public enum OAuthAttribute {
         Map<String, Object> profile = (Map<String, Object>) account.get("profile");
 
         return new MemberInfo(
-                (String) profile.get("nickname"),
-                (String) account.get("email"));
+                (String) account.get("email"),
+                (String) profile.get("nickname"));
     });
 
     private final String registrationId;
