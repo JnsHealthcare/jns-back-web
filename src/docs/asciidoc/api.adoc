@@ -1,0 +1,91 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+= JNS-WEB API 명세
+:doctype: book
+:source-highlighter: highlightjs
+:hardbreaks:
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[resources-custom-code]]
+= 기본 정보
+
+== 서버 커스텀 응답 코드 및 메시지
+
+[cols=2*,options=header]
+|===
+|response code
+|message
+
+|G001
+|정상 처리
+
+|E401
+|서버 에러입니다.
+
+|E402
+|요청 정보를 확인해주세요.
+
+|E403
+|접근 권한이 없습니다.
+
+|===
+
+[[resources-login]]
+= 로그인/회원가입
+
+[[signup]]
+== 자체 회원가입
+
+=== Request
+
+==== Request Parameters
+
+include::{snippets}/auth/signup/request-fields.adoc[]
+
+==== Sample
+
+include::{snippets}/auth/signup/http-request.adoc[]
+
+=== Response
+
+==== headers
+include::{snippets}/auth/signup/response-headers.adoc[]
+
+==== Parameters
+
+include::{snippets}/auth/signup/response-fields.adoc[]
+
+==== Sample
+
+*정상*
+
+include::{snippets}/auth/signup/http-response.adoc[]
+
+
+[[login]]
+== 이메일/패스워드 로그인
+
+=== Request
+
+==== Request Parameters
+
+include::{snippets}/auth/login/request-fields.adoc[]
+
+==== Sample
+
+include::{snippets}/auth/login/http-request.adoc[]
+
+=== Response
+
+==== Parameters
+
+include::{snippets}/auth/login/response-fields.adoc[]
+
+==== Sample
+
+*정상*
+
+include::{snippets}/auth/login/http-response.adoc[]
