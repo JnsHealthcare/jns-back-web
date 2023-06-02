@@ -37,7 +37,7 @@ public class OAuthService extends DefaultOAuth2UserService {
     }
 
     private Member findOrSave(MemberInfo memberInfo) {
-        return memberRepository.findByOauthId(memberInfo.getOauthId())
+        return memberRepository.findByEmail(memberInfo.getEmail())
                 .orElseGet(() -> memberRepository.save(memberInfo.convertToSimpleMember()));
     }
 

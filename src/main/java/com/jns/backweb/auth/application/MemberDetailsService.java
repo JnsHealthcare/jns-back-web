@@ -20,7 +20,10 @@ public class MemberDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return null;
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new JnsWebApplicationException(ErrorCodeAndMessage.INVALID_REQUEST));
+
+        return LoginMember.from(member);
     }
 
     public UserDetails loadMemberById(Long id) {
