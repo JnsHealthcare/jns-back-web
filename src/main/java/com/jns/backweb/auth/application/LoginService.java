@@ -3,6 +3,7 @@ package com.jns.backweb.auth.application;
 import com.jns.backweb.auth.application.dto.LoginRequest;
 import com.jns.backweb.auth.application.dto.LoginSuccessResult;
 import com.jns.backweb.auth.application.dto.RegisterRequest;
+import com.jns.backweb.auth.exception.DuplicatedEmailException;
 import com.jns.backweb.auth.model.LoginMember;
 import com.jns.backweb.common.exception.ErrorCodeAndMessage;
 import com.jns.backweb.common.exception.JnsWebApplicationException;
@@ -37,7 +38,7 @@ public class LoginService {
     public void register(RegisterRequest registerRequest) {
 
         if(memberRepository.existsByEmail(registerRequest.getEmail())) {
-            throw new JnsWebApplicationException(ErrorCodeAndMessage.INVALID_REQUEST);
+            throw new DuplicatedEmailException();
         };
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
         Member member = Member.of(registerRequest.getEmail(), registerRequest.getName(),

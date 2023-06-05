@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private final OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
     private final OAuthLoginFailHandler oAuthLoginFailHandler;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    private final CookieOauthAuthorizationRequestRepository cookieOauthAuthorizationRequestRepository;
     private final MemberDetailsService memberDetailsService;
     private final JwtProvider jwtProvider;
 
@@ -49,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/", "/api/auth/*", "/h2-console", "/favicon.ico");
+        web.ignoring().antMatchers("/", "/error", "/api/auth/*", "/h2-console", "/favicon.ico");
     }
 
     @Override

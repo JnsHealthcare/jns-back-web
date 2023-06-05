@@ -2,10 +2,10 @@ package com.jns.backweb.auth;
 
 import com.jns.backweb.auth.application.JwtProvider;
 import com.jns.backweb.auth.application.MemberDetailsService;
+import com.jns.backweb.auth.exception.UnauthorizedException;
 import com.jns.backweb.auth.util.AuthExtractor;
-import com.jns.backweb.common.exception.ErrorCodeAndMessage;
-import com.jns.backweb.common.exception.JnsWebApplicationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final MemberDetailsService memberDetailsService;
@@ -34,7 +35,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         } else {
-            throw new JnsWebApplicationException(ErrorCodeAndMessage.INVALID_REQUEST);
+            log.debug("[error] token error");
+            throw new UnauthorizedException();
         }
 
         filterChain.doFilter(request, response);

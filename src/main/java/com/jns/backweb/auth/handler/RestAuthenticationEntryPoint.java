@@ -27,9 +27,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException e) throws IOException {
        log.error("[auth error(uri={})] {}", httpServletRequest.getRequestURI(), e.getMessage());
 
-        String error = objectMapper.writeValueAsString(ApiResponse.error(ErrorCodeAndMessage.UNAUTHORIZED));
-
         httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String error = objectMapper.writeValueAsString(ApiResponse.error(ErrorCodeAndMessage.UNAUTHORIZED));
         httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpServletResponse.getWriter().write(error);
     }
