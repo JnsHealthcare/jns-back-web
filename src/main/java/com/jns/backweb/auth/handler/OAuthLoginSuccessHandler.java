@@ -48,12 +48,10 @@ public class OAuthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             throw new JnsWebApplicationException(ErrorCodeAndMessage.INVALID_REQUEST);
         }
 
-        String targetUrl = redirectUri.orElseGet(this::getDefaultTargetUrl);
-
         LoginMember principal = (LoginMember) authentication.getPrincipal();
         String token = jwtProvider.generateAccessToken(principal.getId());
 
-        return UriComponentsBuilder.fromUriString(targetUrl)
+        return UriComponentsBuilder.fromUriString(redirectUri.get())
                 .queryParam("token", token)
                 .queryParam("type", jwtProvider.getTokenType())
                 .queryParam("email", principal.getEmail())

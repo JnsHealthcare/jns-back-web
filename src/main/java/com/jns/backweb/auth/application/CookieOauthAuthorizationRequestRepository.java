@@ -16,7 +16,7 @@ public class CookieOauthAuthorizationRequestRepository implements AuthorizationR
     public static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect_uri";
     private static final int cookieExpireSeconds = 180;
 
-    private static final String DEFAULT_REDIRECT_URI = "/";
+    private static final String DEFAULT_REDIRECT_URI = "http://localhost:3000";
 
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
