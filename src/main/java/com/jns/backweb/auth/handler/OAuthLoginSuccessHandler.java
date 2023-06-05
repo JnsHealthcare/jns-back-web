@@ -56,6 +56,8 @@ public class OAuthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
                 .queryParam("type", jwtProvider.getTokenType())
+                .queryParam("email", principal.getEmail())
+                .queryParam("name", principal.getName())
                 .build().toUriString();
     }
 
