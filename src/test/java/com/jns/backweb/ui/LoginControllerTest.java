@@ -1,15 +1,12 @@
 package com.jns.backweb.ui;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jns.backweb.auth.application.LoginService;
 import com.jns.backweb.auth.application.dto.LoginRequest;
 import com.jns.backweb.auth.application.dto.LoginSuccessResult;
 import com.jns.backweb.auth.application.dto.RegisterRequest;
-import com.jns.backweb.auth.model.LoginMember;
 import com.jns.backweb.auth.ui.LoginController;
 import com.jns.backweb.auth.ui.dto.LoginResponse;
 import com.jns.backweb.common.dto.ApiResponse;
-import com.jns.backweb.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,8 +22,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.filter.CharacterEncodingFilter;
