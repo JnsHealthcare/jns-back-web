@@ -101,7 +101,7 @@ include::{snippets}/auth/login/http-response.adoc[]
 |===
 |Path|Type|Description|required
 
-|`+redirect_uri+`
+|`+redirectPath+`
 |`+String+`
 |로그인 성공 시 redirect 받고자하는 uri path
 |optional(default: baseurl)
