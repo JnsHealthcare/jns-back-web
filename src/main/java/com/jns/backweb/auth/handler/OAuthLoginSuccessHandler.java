@@ -17,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import static com.jns.backweb.auth.application.CookieOauthAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
@@ -51,11 +53,12 @@ public class OAuthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         LoginMember principal = (LoginMember) authentication.getPrincipal();
         String token = jwtProvider.generateAccessToken(principal.getId());
 
+
         return UriComponentsBuilder.fromUriString(redirectUri.get())
                 .queryParam("token", token)
                 .queryParam("type", jwtProvider.getTokenType())
                 .queryParam("email", principal.getEmail())
-                .queryParam("name", principal.getName())
+                .queryParam("name", URLEncoder.encode(principal.getName(), StandardCharsets.UTF_8))
                 .build().toUriString();
     }
 
