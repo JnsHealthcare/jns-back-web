@@ -36,4 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-application-auth.yml
+auth.yml
+datasource.yml
+application-prod.yml

@@ -1,6 +1,7 @@
 package com.jns.backweb.auth.application.dto;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Getter
 public class LoginRequest {
 

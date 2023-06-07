@@ -1,13 +1,10 @@
 package com.jns.backweb.member.domain;
 
 import com.jns.backweb.common.entity.BaseEntity;
-import com.jns.backweb.common.exception.ErrorCodeAndMessage;
-import com.jns.backweb.common.exception.JnsWebApplicationException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

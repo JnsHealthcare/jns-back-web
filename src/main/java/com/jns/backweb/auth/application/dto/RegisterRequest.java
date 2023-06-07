@@ -2,6 +2,7 @@ package com.jns.backweb.auth.application.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class RegisterRequest {
 
     @Email(message = "이메일을 확인해주세요.")

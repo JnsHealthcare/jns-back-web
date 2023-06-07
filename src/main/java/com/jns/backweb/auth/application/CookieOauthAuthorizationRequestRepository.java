@@ -13,10 +13,11 @@ import java.util.Optional;
 public class CookieOauthAuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
     public static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request";
-    public static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect_uri";
+    public static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirectPath";
     private static final int cookieExpireSeconds = 180;
 
-    private static final String DEFAULT_REDIRECT_URI = "/";
+    private static final String BASE_URL = "http://localhost:3000";
+    private static final String DEFAULT_REDIRECT_URI_PATH = "/";
 
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
@@ -34,8 +35,9 @@ public class CookieOauthAuthorizationRequestRepository implements AuthorizationR
         }
 
         CookieUtil.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME, CookieUtil.serialize(authorizationRequest), cookieExpireSeconds);
-        String redirectUriAfterLogin = Optional.ofNullable(request.getParameter(REDIRECT_URI_PARAM_COOKIE_NAME))
-                .orElse(DEFAULT_REDIRECT_URI);
+        String redirectPath = Optional.ofNullable(request.getParameter(REDIRECT_URI_PARAM_COOKIE_NAME))
+                .orElse(DEFAULT_REDIRECT_URI_PATH);
+        String redirectUriAfterLogin = BASE_URL + redirectPath;
 
         CookieUtil.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUriAfterLogin, cookieExpireSeconds);
     }

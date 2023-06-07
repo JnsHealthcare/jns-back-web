@@ -1,6 +1,6 @@
 spring:
   config:
-    import: auth.yml
+    import: auth-test.yml
   # db settings
   datasource:
     url: jdbc:h2:mem:test;MODE=mysql;

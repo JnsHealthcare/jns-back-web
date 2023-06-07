@@ -48,7 +48,7 @@ public class JwtProvider {
         try {
             Jws<Claims> claims = jwtParser.parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (JwtException | IllegalArgumentException | NullPointerException e) {
             return false;
         }
     }

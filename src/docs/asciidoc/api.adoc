@@ -1,0 +1,153 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+= JNS-WEB API 명세
+:doctype: book
+:source-highlighter: highlightjs
+:hardbreaks:
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[resources-custom-code]]
+= 기본 정보
+
+== 서버 커스텀 응답 코드 및 메시지
+
+[cols=2*,options=header]
+|===
+|response code
+|message
+
+|G001
+|정상 처리
+
+|E401
+|서버 에러입니다.
+
+|E402
+|요청 정보를 확인해주세요.
+
+|E403
+|접근 권한이 없습니다.
+
+|===
+
+[[resources-login]]
+= 로그인/회원가입
+
+[[signup]]
+== 자체 회원가입
+
+=== Request
+
+==== Request Parameters
+
+include::{snippets}/auth/signup/request-fields.adoc[]
+
+==== Sample
+
+include::{snippets}/auth/signup/http-request.adoc[]
+
+=== Response
+
+==== headers
+include::{snippets}/auth/signup/response-headers.adoc[]
+
+==== Parameters
+
+include::{snippets}/auth/signup/response-fields.adoc[]
+
+==== Sample
+
+*정상*
+
+include::{snippets}/auth/signup/http-response.adoc[]
+
+
+[[login]]
+== 이메일/패스워드 로그인
+
+=== Request
+
+==== Request Parameters
+
+include::{snippets}/auth/login/request-fields.adoc[]
+
+==== Sample
+
+include::{snippets}/auth/login/http-request.adoc[]
+
+=== Response
+
+==== Parameters
+
+include::{snippets}/auth/login/response-fields.adoc[]
+
+==== Sample
+
+*정상*
+
+include::{snippets}/auth/login/http-response.adoc[]
+
+
+[[kakao-login]]
+== 카카오 로그인
+
+=== Request
+
+==== Request Parameters(쿼리 파라미터)
+
+|===
+|Path|Type|Description|required
+
+|`+redirectPath+`
+|`+String+`
+|로그인 성공 시 redirect 받고자하는 uri path
+|optional(default: baseurl)
+
+|===
+
+==== Sample
+
+[source,http,options="nowrap"]
+----
+GET /oauth2/authorization/kakao HTTP/1.1
+Accept: */*
+
+----
+
+=== Response
+
+==== Query Parameters
+|===
+|key|Description
+
+|`+token+`
+|엑세스 토큰
+
+|`+type+`
+|토큰 타입
+
+|`+email+`
+|로그인한 회원의 이메일
+
+|`+name+`
+|로그인한 회원의 이름
+
+
+|===
+
+
+==== Sample
+
+*정상*
+[source,http,options="nowrap"]
+----
+http://localhost:3000/?token=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyb24yIiwic3ViIjoiYWNjZXNzIiwiYXVkIjoiMSIsImV4cCI6MTY4NjEwNTM2NH0.Dz366FNNGJjFsVieCKbMHabh3k3IiKpzKcgvR__-ivE&type=Bearer&email=mymycms0504@naver.com&name=최민석
+HTTP/1.1 200 OK
+Set-Cookie: rtk=refreshToken; Path=/; Max-Age=3000; Expires=Mon, 05 Jun 2023 08:38:49 GMT; HttpOnly
+
+----
+
+
