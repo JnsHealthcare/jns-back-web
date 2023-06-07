@@ -2,7 +2,11 @@ name: gradle test
 
 on:
   push:
-
+    paths:
+      [
+        "be/src/**",
+        "be/build.gradle"
+      ]
 jobs:
   build:
     name: test check

@@ -50,7 +50,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Spring Boot Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build -Pprofile=prod
       
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v5.6
