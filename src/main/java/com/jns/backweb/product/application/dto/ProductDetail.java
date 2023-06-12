@@ -14,12 +14,11 @@ import java.util.List;
 @EqualsAndHashCode
 public class ProductDetail {
 
-    private Long id;
-    private String code;
+    private Long productId;
     private String name;
     private Double price;
-    private List<ImageDto> images;
-    private List<ImageDto> detailImages;
+    private List<OptionDetail> options;
+    private String detailInformation;
 
 
 }

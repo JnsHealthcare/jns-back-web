@@ -35,7 +35,5 @@ public class Option extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY)
     private List<ProductImage> images;
 
-    private String DetailInformationUrl;
-
 
 }
