@@ -3,15 +3,14 @@ spring:
     import: auth-test.yml
   # db settings
   datasource:
-    url: jdbc:h2:mem:test;MODE=mysql;
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8.0.29:///test?TC_DAEMON=true
+    username: root
+    password: root
 
   sql:
     init:
-      platform: h2
-      mode: embedded
+      mode: always
 
   # jpa settings
   jpa:
@@ -24,3 +23,4 @@ spring:
         format_sql: true
 
     open-in-view: false
+    defer-datasource-initialization: true
