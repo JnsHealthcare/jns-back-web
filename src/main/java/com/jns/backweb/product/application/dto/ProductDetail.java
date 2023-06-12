@@ -21,4 +21,6 @@ public class ProductDetail {
     private String detailInformation;
 
 
+
+
 }
