@@ -108,7 +108,7 @@ class ProductControllerTest extends RestDocsTest {
         //given
         String mainImageUrl = "https://avatars.githubusercontent.com/u/134758318?s=200&v=4";
         OptionDetail whiteOption = new OptionDetail(1L, "lime1-sq-wh", "lime1 square white", List.of(new ImageDto(1, mainImageUrl)));
-        OptionDetail blackOption = new OptionDetail(2L, "lime1-sq-bk", "lime1 square black", List.of(new ImageDto(2, mainImageUrl)));
+        OptionDetail blackOption = new OptionDetail(2L, "lime1-sq-bk", "lime1 square black", List.of(new ImageDto(1, mainImageUrl)));
 
         Long productId = 1L;
         String name = "Lime1 Square";
