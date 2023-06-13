@@ -9,18 +9,21 @@ import com.jns.backweb.product.application.dto.ProductSimpleInfo;
 import com.jns.backweb.product.application.dto.ProductsResponse;
 import com.jns.backweb.product.domain.Option;
 import com.jns.backweb.product.domain.Product;
+import com.jns.backweb.product.exception.ProductNotFoundException;
 import com.jns.backweb.product.repository.OptionRepository;
 import com.jns.backweb.product.repository.ProductImageRepository;
 import com.jns.backweb.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService {
@@ -40,10 +43,12 @@ public class ProductServiceImpl implements ProductService {
                     .stream()
                     .map(Option::getId)
                     .collect(Collectors.toList());
+
             List<OptionInfo> options = productImageRepository.findMainImagesByOptionIds(optionIds)
                     .stream()
                     .map(productImage -> new OptionInfo(productImage.getOption().getId(), productImage.getUrl()))
                     .collect(Collectors.toList());
+
             ProductSimpleInfo productSimpleInfo = new ProductSimpleInfo(product.getId(), product.getName(), options);
             productSimpleInfos.add(productSimpleInfo);
         }
@@ -54,11 +59,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDetail getProduct(Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new JnsWebApplicationException(ErrorCodeAndMessage.SERVER_ERROR));
+                .orElseThrow(ProductNotFoundException::new);
 
         List<Option> options = optionRepository.findAllByProduct(product);
 
-        List<OptionDetail> optionDetails = options.stream().map(OptionDetail::from).collect(Collectors.toList());
+        List<OptionDetail> optionDetails = options.stream()
+                .map(OptionDetail::from)
+                .collect(Collectors.toList());
 
         return new ProductDetail(
                 product.getId(),

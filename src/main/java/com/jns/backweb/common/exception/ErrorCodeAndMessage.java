@@ -13,7 +13,8 @@ public enum ErrorCodeAndMessage {
     UNAUTHORIZED("E403", "권한이 없습니다."),
     DUPLICATED_EMAIL("E404", "이미 회원가입된 이메일입니다."),
     NOT_FOUND_MEMBER("E405", "회원 정보를 찾을 수 없습니다."),
-    NOT_MATCHED_EMAIL_PW("E406", "이메일과 비밀번호를 확인해주세요.");
+    NOT_MATCHED_EMAIL_PW("E406", "이메일과 비밀번호를 확인해주세요."),
+    NOT_FOUND_PRODUCT("E407", "제품을 찾을 수 없습니다.");
 
 
     private final String code;
