@@ -5,6 +5,7 @@ import com.jns.backweb.auth.application.dto.LoginRequest;
 import com.jns.backweb.auth.application.dto.LoginSuccessResult;
 import com.jns.backweb.auth.application.dto.RegisterRequest;
 import com.jns.backweb.auth.ui.LoginController;
+import com.jns.backweb.auth.ui.dto.EmailCheckRequest;
 import com.jns.backweb.auth.ui.dto.LoginResponse;
 import com.jns.backweb.common.dto.ApiResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,9 +58,6 @@ class LoginControllerTest extends RestDocsTest {
             headerWithName(HttpHeaders.LOCATION).description("마이페이지 url")
     );
 
-    private static final Snippet NON_DATA_RESPONSE = generateApiResponseFields();
-
-
     private static final Snippet LOGIN_REQUEST_FIELDS = requestFields(
             fieldWithPath("email").type(JsonFieldType.STRING).description("회원의 이메일"),
             fieldWithPath("password").type(JsonFieldType.STRING).description("회원의 비밀번호")
@@ -70,6 +68,10 @@ class LoginControllerTest extends RestDocsTest {
             fieldWithPath(makeDataFieldName("name")).type(JsonFieldType.STRING).description("로그인한 회원의 이름"),
             fieldWithPath(makeDataFieldName("token")).type(JsonFieldType.STRING).description("엑세스 토큰"),
             fieldWithPath(makeDataFieldName("tokenType")).type(JsonFieldType.STRING).description("토큰 타입")
+    );
+
+    private static final Snippet CHECK_EMAIL_REQUEST_FIELDS = requestFields(
+            fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
     );
 
     @Mock
@@ -117,7 +119,7 @@ class LoginControllerTest extends RestDocsTest {
                 .andExpect(content().string(objectMapper.writeValueAsString(ApiResponse.success())))
                 .andExpect(header().string("LOCATION", "/api/members/me"))
                 .andDo(document("auth/signup", SIGNUP_REQUEST_FIELDS,
-                        LOCATION_HEADER, NON_DATA_RESPONSE));
+                        LOCATION_HEADER, EMPTY_DATA_RESPONSE_FIELDS));
     }
 
     @Test
@@ -149,6 +151,29 @@ class LoginControllerTest extends RestDocsTest {
                 .andExpect(content().string(objectMapper.writeValueAsString(ApiResponse.success(loginResponse))))
                 .andDo(document("auth/login", LOGIN_REQUEST_FIELDS,
                         LOGIN_RESPONSE_FIELDS));
+    }
+
+
+    @Test
+    @DisplayName("형식이 잘 맞춰져있고, 회원가입되지 않은 이메일이라면 상태코드 200 OK와 이메일을 반환한다.")
+    void checkEmail_test_success() throws Exception {
+
+        // given
+        String email = "cms05041@gmail.com";
+        EmailCheckRequest emailCheckRequest = new EmailCheckRequest(email);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(RestDocumentationRequestBuilders
+                .post("/api/auth/email")
+                .content(objectMapper.writeValueAsString(emailCheckRequest))
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(ApiResponse.success())))
+                .andDo(document("auth/email",
+                        CHECK_EMAIL_REQUEST_FIELDS, EMPTY_DATA_RESPONSE_FIELDS));
     }
 
 }

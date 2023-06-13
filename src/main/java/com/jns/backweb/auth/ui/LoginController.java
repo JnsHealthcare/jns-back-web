@@ -60,11 +60,11 @@ public class LoginController {
     }
 
     @PostMapping("/email")
-    public ResponseEntity<ApiResponse<String>> checkAvailableEmail(@Valid @RequestBody EmailCheckRequest emailCheckRequest) {
+    public ResponseEntity<ApiResponse<Void>> checkAvailableEmail(@Valid @RequestBody EmailCheckRequest emailCheckRequest) {
         String email = emailCheckRequest.getEmail();
         loginService.checkAvailableEmail(email);
 
-        return ResponseEntity.ok(ApiResponse.success(email));
+        return ResponseEntity.ok(ApiResponse.success());
     }
 
 

@@ -76,6 +76,33 @@ include::{snippets}/auth/signup/response-fields.adoc[]
 
 include::{snippets}/auth/signup/http-response.adoc[]
 
+[[email-check]]
+== 이메일 중복 확인
+
+=== Request
+
+==== Request Parameters
+
+include::{snippets}/auth/email/request-fields.adoc[]
+
+==== Sample
+
+include::{snippets}/auth/email/http-request.adoc[]
+
+=== Response
+
+==== Parameters
+
+include::{snippets}/auth/email/response-fields.adoc[]
+
+==== Sample
+
+*정상*
+
+include::{snippets}/auth/email/http-response.adoc[]
+
+
+
 
 [[login]]
 == 이메일/패스워드 로그인
