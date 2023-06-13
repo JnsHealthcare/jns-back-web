@@ -1,6 +1,5 @@
 package com.jns.backweb.auth.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jns.backweb.auth.TokenAuthenticationFilter;
 import com.jns.backweb.auth.application.CookieOauthAuthorizationRequestRepository;
 import com.jns.backweb.auth.application.JwtProvider;

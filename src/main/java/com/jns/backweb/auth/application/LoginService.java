@@ -47,4 +47,11 @@ public class LoginService {
         memberRepository.save(member);
         log.debug("jns-signup [id={}, email={}]", member.getId(), member.getEmail());
     }
+
+    public void checkAvailableEmail(String email) {
+
+        if (memberRepository.existsByEmail(email)) {
+            throw new DuplicatedEmailException();
+        }
+    }
 }
