@@ -29,4 +29,4 @@ jwt:
   refresh-token-subject: refresh
   access-token-duration: 86400
   refresh-token-duration: 864000
-  token-type: bearer
+  token-type: Bearer

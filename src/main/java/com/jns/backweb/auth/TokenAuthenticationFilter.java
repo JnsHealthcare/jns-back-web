@@ -2,7 +2,7 @@ package com.jns.backweb.auth;
 
 import com.jns.backweb.auth.application.JwtProvider;
 import com.jns.backweb.auth.application.MemberDetailsService;
-import com.jns.backweb.auth.exception.UnauthorizedException;
+import com.jns.backweb.auth.model.LoginMember;
 import com.jns.backweb.auth.util.AuthExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -24,19 +25,25 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final MemberDetailsService memberDetailsService;
     private final JwtProvider jwtProvider;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = AuthExtractor.extract(request);
+        Optional<String> optionalToken = AuthExtractor.extract(request);
 
-        if(jwtProvider.validateToken(token)) {
-            Long memberId = Long.parseLong(jwtProvider.getAudience(token));
-            UserDetails userDetails = memberDetailsService.loadMemberById(memberId);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        if(optionalToken.isEmpty()) {
+            LoginMember visitor = LoginMember.createVisitor();
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(visitor, null, visitor.getAuthorities());
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+        } else if (jwtProvider.validateToken(optionalToken.get())) {
+            Long memberId = Long.parseLong(jwtProvider.getAudience(optionalToken.get()));
+            UserDetails userDetails = memberDetailsService.loadMemberById(memberId);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
         } else {
-            log.debug("[error] token error");
-            throw new UnauthorizedException();
+            log.debug("[Invalid token] requestURI = {}", request.getRequestURI());
         }
 
         filterChain.doFilter(request, response);

@@ -25,7 +25,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException {
-       log.error("[auth error(uri={})] {}", httpServletRequest.getRequestURI(), e.getMessage());
+        log.debug("[auth error(uri={})] {}", httpServletRequest.getRequestURI(), e.getMessage());
 
         httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
         String error = objectMapper.writeValueAsString(ApiResponse.error(ErrorCodeAndMessage.UNAUTHORIZED));
