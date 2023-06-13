@@ -37,6 +37,11 @@ public class LoginMember implements OAuth2User, UserDetails {
         return new LoginMember(member.getId(), member.getName(), member.getEmail(), member.getPassword(), authorities, attributes);
     }
 
+    public static LoginMember createVisitor() {
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_VISITOR"));
+        return new LoginMember(null, null, null, null, authorities, null);
+    }
+
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -45,7 +50,7 @@ public class LoginMember implements OAuth2User, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        return this.authorities;
     }
 
     @Override

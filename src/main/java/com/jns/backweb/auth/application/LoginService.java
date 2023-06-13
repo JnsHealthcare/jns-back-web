@@ -32,7 +32,7 @@ public class LoginService {
         String refreshToken = jwtProvider.generateRefreshToken(principal.getId());
 
         log.debug("{} login", principal.getEmail());
-        return new LoginSuccessResult(principal.getEmail(), principal.getName(), accessToken, refreshToken, (int) jwtProvider.getRefreshTokenDuration());
+        return new LoginSuccessResult(principal.getEmail(), principal.getName(), accessToken, refreshToken, jwtProvider.getTokenType(), (int) jwtProvider.getRefreshTokenDuration());
     }
 
     public void register(RegisterRequest registerRequest) {

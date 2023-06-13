@@ -15,6 +15,7 @@ public class LoginSuccessResult {
     private String name;
     private String accessToken;
     private String refreshToken;
+    private String tokenType;
     private int refreshTokenDuration;
 
 }

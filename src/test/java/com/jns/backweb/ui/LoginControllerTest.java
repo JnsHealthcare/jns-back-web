@@ -68,7 +68,8 @@ class LoginControllerTest extends RestDocsTest {
     private static final Snippet LOGIN_RESPONSE_FIELDS = generateApiResponseFields(
             fieldWithPath(makeDataFieldName("email")).type(JsonFieldType.STRING).description("로그인한 회원의 이메일"),
             fieldWithPath(makeDataFieldName("name")).type(JsonFieldType.STRING).description("로그인한 회원의 이름"),
-            fieldWithPath(makeDataFieldName("token")).type(JsonFieldType.STRING).description("엑세스 토큰")
+            fieldWithPath(makeDataFieldName("token")).type(JsonFieldType.STRING).description("엑세스 토큰"),
+            fieldWithPath(makeDataFieldName("tokenType")).type(JsonFieldType.STRING).description("토큰 타입")
     );
 
     @Mock
@@ -130,7 +131,7 @@ class LoginControllerTest extends RestDocsTest {
 
         String accessToken = "accessToken";
         given(authenticationManager.authenticate(any())).willReturn(new UsernamePasswordAuthenticationToken(email, password));
-        LoginSuccessResult loginSuccessResult = new LoginSuccessResult(email, name, accessToken,"refreshToken", 3000);
+        LoginSuccessResult loginSuccessResult = new LoginSuccessResult(email, name, accessToken,"refreshToken", "Bearer", 3000);
         given(loginService.getLoginResult(any())).willReturn(loginSuccessResult);
         LoginResponse loginResponse = LoginResponse.from(loginSuccessResult);
 
