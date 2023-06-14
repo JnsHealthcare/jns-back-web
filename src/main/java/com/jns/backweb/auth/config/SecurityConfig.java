@@ -85,7 +85,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .accessDeniedHandler(customAccessDeniedHandler)
             .and()
             .authorizeRequests()
-                .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/api/members/*").hasRole("USER")
                 .anyRequest().authenticated()
             .and()
