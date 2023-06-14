@@ -87,7 +87,6 @@ class LoginServiceTest {
         // given
         String newbieEmail = "newbie@gmail.com";
 
-
         // when
         loginService.checkAvailableEmail(newbieEmail);
 
@@ -101,7 +100,7 @@ class LoginServiceTest {
     void checkAvailableEmail_test_fail() {
 
         // given
-        String newbieEmail = "newbie@gmail.com";
+        String newbieEmail = "admin@gmail.com";
 
         // when
         assertThatThrownBy(() -> loginService.checkAvailableEmail(newbieEmail))
