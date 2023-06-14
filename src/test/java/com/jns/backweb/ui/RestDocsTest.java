@@ -43,5 +43,7 @@ abstract class RestDocsTest {
         return responseFields(fieldDescriptors);
     }
 
+    protected static Snippet EMPTY_DATA_RESPONSE_FIELDS = generateApiResponseFields();
+
 
 }

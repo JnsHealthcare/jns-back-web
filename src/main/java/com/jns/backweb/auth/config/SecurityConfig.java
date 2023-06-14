@@ -5,6 +5,7 @@ import com.jns.backweb.auth.application.CookieOauthAuthorizationRequestRepositor
 import com.jns.backweb.auth.application.JwtProvider;
 import com.jns.backweb.auth.application.MemberDetailsService;
 import com.jns.backweb.auth.application.OAuthService;
+import com.jns.backweb.auth.handler.CustomAccessDeniedHandler;
 import com.jns.backweb.auth.handler.OAuthLoginFailHandler;
 import com.jns.backweb.auth.handler.OAuthLoginSuccessHandler;
 import com.jns.backweb.auth.handler.RestAuthenticationEntryPoint;
@@ -15,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +31,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final OAuthService oAuthService;
     private final OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     private final MemberDetailsService memberDetailsService;
     private final JwtProvider jwtProvider;
-
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -81,8 +81,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .exceptionHandling()
                     .authenticationEntryPoint(restAuthenticationEntryPoint)
             .and()
+                .exceptionHandling()
+                    .accessDeniedHandler(customAccessDeniedHandler)
+            .and()
             .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
+                .antMatchers("/api/members/*").hasRole("USER")
                 .anyRequest().authenticated()
             .and()
                 .oauth2Login()

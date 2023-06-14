@@ -15,13 +15,15 @@ public class LoginResponse {
     private String email;
     private String name;
     private String token;
+    private String tokenType;
 
 
     public static LoginResponse from(LoginSuccessResult loginSuccessResult) {
         return new LoginResponse(
                 loginSuccessResult.getEmail(),
                 loginSuccessResult.getName(),
-                loginSuccessResult.getAccessToken()
+                loginSuccessResult.getAccessToken(),
+                loginSuccessResult.getTokenType()
         );
     }
 }

@@ -7,11 +7,8 @@ import com.jns.backweb.auth.application.dto.RegisterRequest;
 import com.jns.backweb.auth.ui.dto.LoginResponse;
 import com.jns.backweb.auth.util.CookieUtil;
 import com.jns.backweb.common.dto.ApiResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.jns.backweb.auth.ui.dto.EmailCheckRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -61,6 +58,16 @@ public class LoginController {
 
         return ResponseEntity.created(location).body(ApiResponse.success());
     }
+
+    @PostMapping("/email")
+    public ResponseEntity<ApiResponse<Void>> checkAvailableEmail(@Valid @RequestBody EmailCheckRequest emailCheckRequest) {
+        String email = emailCheckRequest.getEmail();
+        loginService.checkAvailableEmail(email);
+
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+
 
 
 }

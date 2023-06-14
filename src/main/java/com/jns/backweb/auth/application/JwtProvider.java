@@ -16,8 +16,6 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private static final String TOKEN_TYPE = "Bearer";
-
     private final JwtProperties jwtProperties;
     private final SecretKey secretKey;
     private final JwtParser jwtParser;
@@ -58,7 +56,7 @@ public class JwtProvider {
     }
 
     public String getTokenType() {
-        return TOKEN_TYPE;
+        return jwtProperties.getTokenType();
     }
 
 
