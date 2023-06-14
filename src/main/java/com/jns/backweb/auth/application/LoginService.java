@@ -11,9 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class LoginService {
 
@@ -32,6 +34,7 @@ public class LoginService {
         return new LoginSuccessResult(principal.getEmail(), principal.getName(), accessToken, refreshToken, jwtProvider.getTokenType(), (int) jwtProvider.getRefreshTokenDuration());
     }
 
+    @Transactional
     public void register(RegisterRequest registerRequest) {
 
         if(memberRepository.existsByEmail(registerRequest.getEmail())) {
