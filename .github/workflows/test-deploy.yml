@@ -76,5 +76,5 @@ jobs:
           script: |
             sudo docker pull $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG
             sudo docker stop back-test-server
-            sudo docker run -d --rm --name back-test-server -p 80:8080 $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG .
+            sudo docker run -d --rm --name back-test-server -p 8080:8080 $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$IMAGE_TAG .
 
