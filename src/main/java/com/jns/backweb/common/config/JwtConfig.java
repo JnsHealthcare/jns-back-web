@@ -1,4 +1,4 @@
-package com.jns.backweb.auth.config;
+package com.jns.backweb.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

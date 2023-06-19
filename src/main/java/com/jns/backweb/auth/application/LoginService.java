@@ -3,12 +3,10 @@ package com.jns.backweb.auth.application;
 import com.jns.backweb.auth.application.dto.LoginSuccessResult;
 import com.jns.backweb.auth.application.dto.RegisterRequest;
 import com.jns.backweb.auth.exception.DuplicatedEmailException;
-import com.jns.backweb.auth.model.LoginMember;
 import com.jns.backweb.member.domain.Member;
 import com.jns.backweb.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +22,13 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public LoginSuccessResult getLoginResult(Authentication authentication) {
+    public LoginSuccessResult passwordLogin() {
 
-        LoginMember principal = (LoginMember) authentication.getPrincipal();
-        String accessToken = jwtProvider.generateAccessToken(principal.getId());
-        String refreshToken = jwtProvider.generateRefreshToken(principal.getId());
+        // login
+        // token return
+        // refresh token set cookie
 
-        log.debug("{} login", principal.getEmail());
-        return new LoginSuccessResult(principal.getEmail(), principal.getName(), accessToken, refreshToken, jwtProvider.getTokenType(), (int) jwtProvider.getRefreshTokenDuration());
+        return null;
     }
 
     @Transactional

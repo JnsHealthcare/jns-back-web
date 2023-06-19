@@ -1,6 +1,6 @@
 package com.jns.backweb.auth.application;
 
-import com.jns.backweb.auth.config.JwtProperties;
+import com.jns.backweb.common.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
