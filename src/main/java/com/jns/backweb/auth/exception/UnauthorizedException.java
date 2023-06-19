@@ -5,7 +5,7 @@ import com.jns.backweb.common.exception.JnsWebApplicationException;
 
 public class UnauthorizedException extends JnsWebApplicationException {
     public UnauthorizedException() {
-        super(ErrorCodeAndMessage.UNAUTHORIZED);
+    super(ErrorCodeAndMessage.UNAUTHORIZED);
     }
 
     public UnauthorizedException(Throwable cause) {
