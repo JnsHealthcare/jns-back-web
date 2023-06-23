@@ -1,5 +1,6 @@
 package com.jns.backweb.member.domain;
 
+import com.jns.backweb.auth.exception.InvalidLoginException;
 import com.jns.backweb.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,13 @@ public class Member extends BaseEntity {
     public static Member of(String email, String name, LocalDate birthDate, String phoneNumber, String password) {
 
         return new Member(null, email, name, birthDate, phoneNumber, password);
+    }
+
+    public void validatePassword(String password) {
+
+        if( this.password == null || !this.password.equals(password)) {
+            throw new InvalidLoginException();
+        }
     }
 
 }

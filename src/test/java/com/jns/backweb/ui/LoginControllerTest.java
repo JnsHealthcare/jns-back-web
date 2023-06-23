@@ -132,9 +132,7 @@ class LoginControllerTest extends RestDocsTest {
         LoginRequest loginRequest = new LoginRequest(email, password);
 
         String accessToken = "accessToken";
-        given(authenticationManager.authenticate(any())).willReturn(new UsernamePasswordAuthenticationToken(email, password));
         LoginSuccessResult loginSuccessResult = new LoginSuccessResult(email, name, accessToken,"refreshToken", "Bearer", 3000);
-        given(loginService.getLoginResult(any())).willReturn(loginSuccessResult);
         LoginResponse loginResponse = LoginResponse.from(loginSuccessResult);
 
 

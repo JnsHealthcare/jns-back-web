@@ -21,12 +21,12 @@
             <appender-ref ref="CONSOLE"/>
         </logger>
 
-        <logger name = "com.jns.backweb" level="debug" additivity="false">
+        <logger name = "com.jns.backweb.common" level="DEBUG" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
 
 
-        </springProfile>
+    </springProfile>
 
     <springProfile name="test">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -57,5 +57,5 @@
 
 
     </springProfile>
-    </configuration>
+</configuration>
 

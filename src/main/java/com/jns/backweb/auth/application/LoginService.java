@@ -1,17 +1,22 @@
 package com.jns.backweb.auth.application;
 
+import com.jns.backweb.auth.application.dto.LoginRequest;
 import com.jns.backweb.auth.application.dto.LoginSuccessResult;
 import com.jns.backweb.auth.application.dto.RegisterRequest;
 import com.jns.backweb.auth.exception.DuplicatedEmailException;
-import com.jns.backweb.auth.model.LoginMember;
+import com.jns.backweb.auth.exception.MemberNotFoundException;
+import com.jns.backweb.auth.model.MemberInfo;
+import com.jns.backweb.auth.model.OAuthAttribute;
+import com.jns.backweb.auth.ui.dto.LoginResponse;
 import com.jns.backweb.member.domain.Member;
 import com.jns.backweb.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,16 +27,18 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
+    private final OauthClientRepository oauthClientRepository;
 
 
-    public LoginSuccessResult getLoginResult(Authentication authentication) {
+    public LoginSuccessResult passwordLogin(LoginRequest loginRequest) {
 
-        LoginMember principal = (LoginMember) authentication.getPrincipal();
-        String accessToken = jwtProvider.generateAccessToken(principal.getId());
-        String refreshToken = jwtProvider.generateRefreshToken(principal.getId());
+        Member member = memberRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(MemberNotFoundException::new);
 
-        log.debug("{} login", principal.getEmail());
-        return new LoginSuccessResult(principal.getEmail(), principal.getName(), accessToken, refreshToken, jwtProvider.getTokenType(), (int) jwtProvider.getRefreshTokenDuration());
+        String encodedPassword = passwordEncoder.encode(loginRequest.getPassword());
+        member.validatePassword(encodedPassword);
+
+        return generateLoginResult(member);
     }
 
     @Transactional
@@ -53,5 +60,25 @@ public class LoginService {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException();
         }
+    }
+
+    public LoginSuccessResult oauthLogin(String providerName, String code) {
+        OauthClient oauthClient = oauthClientRepository.findOauthClient(providerName);
+        Map<String, Object> oauthMemberInfo = oauthClient.getOauthMemberInfo(code);
+
+        MemberInfo memberInfo = OAuthAttribute.toMemberInfo(providerName, oauthMemberInfo);
+        Member member = memberRepository.findByEmail(memberInfo.getEmail())
+                .orElseGet(() -> memberRepository.save(Member.ofSimpleMember(memberInfo.getEmail(), memberInfo.getName())));
+        return generateLoginResult(member);
+    }
+
+    private LoginSuccessResult generateLoginResult(Member member) {
+        String accessToken = jwtProvider.generateAccessToken(member.getId());
+        String refreshToken = jwtProvider.generateRefreshToken(member.getId());
+
+        return new LoginSuccessResult(
+                member.getEmail(), member.getName(),
+                accessToken, refreshToken,
+                jwtProvider.getTokenType(), (int) jwtProvider.getRefreshTokenDuration());
     }
 }
