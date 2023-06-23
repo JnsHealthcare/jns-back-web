@@ -1,0 +1,32 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: clientId
+            client-secret: clientSecret
+            scope:
+              - profile_nickname
+              - account_email
+            redirect-uri: redirectUri
+            authorization-grant-type: authorization_code
+            client-name: kakao
+            client-authentication-method: POST
+
+        provider:
+          kakao:
+            authorization-uri: authorizationUri
+            token-uri: tokenUri
+            user-info-uri: userInfoUri
+            user-name-attribute: id
+
+
+jwt:
+  secret: lime1lime2lime3lime4lime5lime6lime7
+  issuer: aaron
+  access-token-subject: access
+  refresh-token-subject: refresh
+  access-token-duration: 86400
+  refresh-token-duration: 864000
+  token-type: Bearer

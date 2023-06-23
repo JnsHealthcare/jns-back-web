@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <!--    <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+    <timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
+    <property name="LOG_PATTERN"
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
+
+    <springProfile name="dev|prod">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <charset>UTF-8</charset>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name = "org.springframework" level="info" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name = "org.springframework.security" level="debug" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name = "com.jns.backweb.common" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+
+    </springProfile>
+
+    <springProfile name="test">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <charset>UTF-8</charset>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name = "org.springframework" level="INFO" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name="org.hibernate" level="info" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <logger name = "com.jns.backweb" level="debug" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+
+    </springProfile>
+</configuration>
+
